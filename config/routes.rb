@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  devise_for :users
+
+  root to: 'restaurants#index'
+
   # get '/restaurants' => 'restaurants#index'
   # get '/restaurants/new' => 'restaurants#index'
   resources :restaurants do
