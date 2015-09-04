@@ -60,11 +60,10 @@ feature "User can sign in and out" do
       click_link 'add restaurant'
       fill_in 'Name', with: 'KFC'
       click_button 'Create Restaurant'
-      puts Restaurant.last.inspect
       click_link 'Sign Out'
     end
    
-    scenario 'let a user edit a restaurant' do
+    scenario 'a user cannot edit a restaurant they did not create' do
     
       visit('/restaurants')
       click_link('Sign up')
@@ -74,6 +73,55 @@ feature "User can sign in and out" do
       click_button('Sign up')
       click_link 'Edit KFC'
       expect(current_path).to eq '/restaurants'
+    end
+  end
+
+  context 'deletion limits' do
+
+    before do
+
+      visit('/restaurants')
+      click_link('Sign up')
+      fill_in('Email', with: 'test@example.com')
+      fill_in('Password', with: 'testtest')
+      fill_in('Password confirmation', with: 'testtest')
+      click_button('Sign up')
+      click_link('Sign Out')
+
+      visit('/restaurants')
+      click_link('Sign up')
+      fill_in('Email', with: 'test2@example.com')
+      fill_in('Password', with: 'testtest')
+      fill_in('Password confirmation', with: 'testtest')
+      click_button('Sign up')
+      click_link('Sign Out')
+
+    end
+
+    # let!(:user){ User.create(email: 'user@example.com')}
+    # let!(:wrong_user){User.create(email: 'wrong_user@example.com')}
+
+    scenario 'a user cannot delete a restaurant they did not create' do
+
+      visit '/restaurants'
+      click_link 'Sign in'
+      fill_in 'Email', with: 'test@example.com'
+      fill_in 'Password', with:'12345678'
+      click_button 'Log in'
+
+      click_link 'add restaurant'
+      fill_in 'Name', with: 'KFC'
+      click_button 'Create Restaurant'
+      click_link 'Sign Out'
+
+      visit '/restaurants'
+      click_link 'Sign in'
+      fill_in 'Email', with: 'test2@example.com'
+      fill_in 'Password', with:'12345678'
+      click_button 'Log in'
+
+      click_button 'Delete KFC'
+      expect(page).not_to have_content 'deleted successfully'
     end
   end
 
