@@ -5,8 +5,8 @@ class Restaurant < ActiveRecord::Base
   belongs_to :user
 
   def build_review(attributes = {},user)
-    review = reviews.build(attributes)
-    review.user = user
+    review = reviews.build(attributes, user)
+    # review.user_id = user
     review
   end
 
