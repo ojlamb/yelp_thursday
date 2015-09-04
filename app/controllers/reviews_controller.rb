@@ -16,12 +16,9 @@ class ReviewsController < ApplicationController
     if @review.save
       redirect_to restaurants_path
     else
-      if @review.errors[:user]
         # redirect_to restaurants_path, alert: "You have already reviewed this restaurant"
-      flash[:alert] = 'You can only leave one review'
+      flash[:notice] = 'You can only leave one review'
       redirect_to restaurants_path
-       render :new
-      end
     end
   end
 
