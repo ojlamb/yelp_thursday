@@ -35,4 +35,15 @@ feature "User can sign in and out" do
       expect(page).not_to have_link('Sign up')
     end
   end
+
+  context 'if not signed in' do
+
+   let!(:kfc){ Restaurant.create(name:'KFC') }
+   
+   it 'a restaurant cannot be created' do
+      visit('/restaurants')
+      click_link 'Edit KFC'
+      expect(page).not_to have_button 'Update Restaurant'
+    end
+  end
 end

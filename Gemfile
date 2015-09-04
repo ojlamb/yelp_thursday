@@ -25,6 +25,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'shoulda'
 gem 'devise'
+gem 'omniauth-facebook'
+gem 'factory_girl_rails', '~> 4.0'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
