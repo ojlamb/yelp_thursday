@@ -39,7 +39,7 @@ feature "User can sign in and out" do
   context 'if not signed in' do
 
    let!(:kfc){ Restaurant.create(name:'KFC') }
-   
+
    it 'a restaurant cannot be created' do
       visit('/restaurants')
       click_link 'Edit KFC'
@@ -62,9 +62,9 @@ feature "User can sign in and out" do
       click_button 'Create Restaurant'
       click_link 'Sign Out'
     end
-   
+
     scenario 'a user cannot edit a restaurant they did not create' do
-    
+
       visit('/restaurants')
       click_link('Sign up')
       fill_in('Email', with: 'test2@example.com')
@@ -106,21 +106,21 @@ feature "User can sign in and out" do
       visit '/restaurants'
       click_link 'Sign in'
       fill_in 'Email', with: 'test@example.com'
-      fill_in 'Password', with:'12345678'
+      fill_in 'Password', with:'testtest'
       click_button 'Log in'
-
-      click_link 'add restaurant'
+      p current_path
+      visit'/restaurants/new'
       fill_in 'Name', with: 'KFC'
       click_button 'Create Restaurant'
       click_link 'Sign Out'
-
+      p current_path
       visit '/restaurants'
       click_link 'Sign in'
       fill_in 'Email', with: 'test2@example.com'
-      fill_in 'Password', with:'12345678'
+      fill_in 'Password', with:'testtest'
       click_button 'Log in'
-
-      click_button 'Delete KFC'
+      p current_path
+      click_link 'Delete KFC'
       expect(page).not_to have_content 'deleted successfully'
     end
   end
