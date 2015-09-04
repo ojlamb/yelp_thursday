@@ -1,6 +1,6 @@
 class RestaurantsController < ApplicationController
   
-  before_action :authenticate_user!, :excpet => [:index, :show]
+  before_action :authenticate_user!, :except => [:index, :show]
 
   def index
     @restaurants = Restaurant.all
@@ -11,7 +11,7 @@ class RestaurantsController < ApplicationController
   end
 
   def create
-    @restaurant = Restaurant.new(restaurant_params)
+    @restaurant = current_user.restaurants.new(restaurant_params)
     if @restaurant.save
       redirect_to restaurants_path
     else
@@ -29,6 +29,13 @@ class RestaurantsController < ApplicationController
 
   def edit
     @restaurant = Restaurant.find(params[:id])
+    p "SEE MMEEEEEE"
+    p current_user.id
+    p @restaurant.user_id
+    if current_user.id != @restaurant.user_id
+      redirect_to restaurants_path
+    end
+    p "Hello ------------"
   end
 
   def update

@@ -46,4 +46,35 @@ feature "User can sign in and out" do
       expect(page).not_to have_button 'Update Restaurant'
     end
   end
+
+  context 'user can only edit restaurants which they have created' do
+
+    before do
+      visit('/restaurants')
+      click_link('Sign up')
+      fill_in('Email', with: 'test@example.com')
+      fill_in('Password', with: 'testtest')
+      fill_in('Password confirmation', with: 'testtest')
+      click_button('Sign up')
+
+      click_link 'add restaurant'
+      fill_in 'Name', with: 'KFC'
+      click_button 'Create Restaurant'
+      puts Restaurant.last.inspect
+      click_link 'Sign Out'
+    end
+   
+    scenario 'let a user edit a restaurant' do
+    
+      visit('/restaurants')
+      click_link('Sign up')
+      fill_in('Email', with: 'test2@example.com')
+      fill_in('Password', with: 'testtest')
+      fill_in('Password confirmation', with: 'testtest')
+      click_button('Sign up')
+      click_link 'Edit KFC'
+      expect(current_path).to eq '/restaurants'
+    end
+  end
+
 end
